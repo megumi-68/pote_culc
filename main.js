@@ -39,8 +39,7 @@ var point = data => {
   if (currentValue === '') {
     return;
   } else if (!currentValue.includes('.')) {
-    currentValue += data;
-    show.textContent = currentValue;
+    show.textContent = show.textContent + data;
   }
 }
 
