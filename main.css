@@ -27,13 +27,6 @@
   vertical-align: middle;
 }
 
-#record-btn {
-  width: 135px;
-  font-size: 24px;
-  margin-left: 13px;
-  vertical-align: middle;
-}
-
 #btns {
   width: 300px;
   display: flex;

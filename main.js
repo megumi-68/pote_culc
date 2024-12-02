@@ -9,8 +9,18 @@ var number = data => {
   if (currentValue.length <= 8) {
     flag = 0;
     currentValue += data;
-    show.textContent = currentValue;
+
+    show.textContent = show.textContent + data;
+
+    // 頭文字が0だったら除去
+    var checkZero = String(show.textContent).slice(0, 1);
+    console.log(`checkZero ${checkZero}`)
+    if (checkZero === '0') {
+      var cutZero = String(show.textContent).slice(1);
+      show.textContent = Number(cutZero);
+    } 
   }
+  console.log(`数字入力${show.textContent}`)
 };
 
 //0入力
@@ -41,26 +51,20 @@ var calc = data => {
   }else if (flag === 0 && data !== "=") {
     flag = 1;
 
-    var formula = total + operator + currentValue;
-    total = eval(formula);
-
     operator = data;
-    currentValue = '';
-    show.textContent = total;
-  } else if (flag === 1 && data === "=") {
-    var formula = total + operator + total;
-    total = limitNum(eval(formula));
-
-    currentValue = "";
-    show.textContent = total;
+    console.log(`operator_${operator}`)
+   
+    show.textContent = show.textContent + operator
+    console.log(`show.textContent +  operator_${show.textContent}`)
   } else if (data === "=") {
     flag = 1;
 
-    var formula = total + operator + currentValue;
-    total = limitNum(eval(formula));
+    total = limitNum(eval(show.textContent));
 
     currentValue = "";
     show.textContent = total;
+
+    console.log(`計算_${show.textContent}`)
   } else {
     operator = data;
   }
