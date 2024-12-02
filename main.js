@@ -1,71 +1,86 @@
-$(document).ready(function() {
-  let setTimeoutId = undefined;
-  let startTime = 0;
-  let currentTime = 0;
-  let elapsedTime = 0;
+var show = document.getElementById('number-text');
+var total = ''; 
+var operator = ''; 
+var currentValue = ''; 
+var flag = 0;
 
-  
-  function runTimer(){
-    currentTime = Date.now();
-    showTime();
-    setTimeoutId = setTimeout(() => {
-      runTimer();
-    },10)
+//数字入力
+var number = data => { 
+  if (currentValue.length <= 8) {
+    flag = 0;
+    currentValue += data;
+    show.textContent = currentValue;
   }
-  
-  function showTime(){
-    let d = new Date(currentTime - startTime + elapsedTime);
-    const getHour = d.getHours() - 9;
-    const getMin = d.getMinutes();
-    const getSec =d.getSeconds();
-    const getMillisec = Math.floor(d.getMilliseconds() / 100);
-    $("#timer").text(`${String(getHour).padStart(1,'0')}:${String(getMin).padStart(1,'0')}:${String(getSec).padStart(1,'0')}:${String(getMillisec).padStart(1,'0')}`);
+};
+
+//0入力
+var zero = data => {
+  if(currentValue === '0') {
+    return;
+  } else if (currentValue.length <= 8){
+    flag = 0;
+    currentValue += data;
+    show.textContent = currentValue;
   }
+}
 
-  function classReplacementRun()  {
-    $("#start").addClass("disabled");
-    $("#stop").removeClass("disabled");
-    $("#reset").addClass("disabled");
+//小数点(.)
+var point = data => {
+  if (currentValue === '') {
+    return;
+  } else if (!currentValue.includes('.')) {
+    currentValue += data;
+    show.textContent = currentValue;
   }
+}
 
-  function classReplacementStop()  {
-    $("#start").removeClass("disabled");
-    $("#stop").addClass("disabled");
-    $("#reset").removeClass("disabled");
+//計算
+var calc = data => {
+  if (currentValue === '') {
+    return;
+  }else if (flag === 0 && data !== "=") {
+    flag = 1;
+
+    var formula = total + operator + currentValue;
+    total = eval(formula);
+
+    operator = data;
+    currentValue = '';
+    show.textContent = total;
+  } else if (flag === 1 && data === "=") {
+    var formula = total + operator + total;
+    total = limitNum(eval(formula));
+
+    currentValue = "";
+    show.textContent = total;
+  } else if (data === "=") {
+    flag = 1;
+
+    var formula = total + operator + currentValue;
+    total = limitNum(eval(formula));
+
+    currentValue = "";
+    show.textContent = total;
+  } else {
+    operator = data;
   }
+};
 
-  function classReplacementInitial()  {
-    $("#start").removeClass("disabled");
-    $("#stop").addClass("disabled");
-    $("#reset").addClass("disabled");
-  }
+//小数点以下
+function limitNum(num) {
+  return Math.round(num*10000000)/10000000;
+}
 
-  $("#start").click(function() {
-    if($(this).hasClass('disabled')){
-      return;
-    }
-    classReplacementRun()
-    startTime = Date.now();
-    runTimer();
-  });
-
-  $("#stop").click(function() {
-    if($(this).hasClass('disabled')){
-      return;
-    }
-    classReplacementStop()
-    elapsedTime += currentTime - startTime;
-    clearTimeout(setTimeoutId);
-  });
-
-  $("#reset").click(function() {
-    if($(this).hasClass('disabled')){
-      return;
-    }
-    classReplacementInitial()
-    clearTimeout(setTimeoutId);
-    elapsedTime = 0
-    $("#timer").text("0:0:0:0");
-  });
-
+//AC
+var clear = document.getElementById('clear-btn')
+clear.addEventListener('click', () => {
+  reset();
 });
+
+function reset() {
+  operator = '';
+  total = '';
+  currentValue = '';
+  flag = 0;
+  show.textContent = '0';
+};

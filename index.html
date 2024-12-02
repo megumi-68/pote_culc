@@ -4,19 +4,42 @@
     <meta charset="utf-8">
     <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>  
     <link rel="stylesheet" href="main.css">
-    <title>ストップウォッチ</title>
+    <title>計算機</title>
   </head>
 
   <body>
-    <h3>ストップウォッチ</h3>
-
     <!-- ここに記述していきましょう！ -->
-    <p id="timer">0:0:0:0</p>
-    <ul id="btn">
-      <li class="btn-item" id="start" >スタート</li>
-      <li class="btn-item disabled" id="stop">ストップ</li>
-      <li class="btn-item disabled" id="reset" >リセット</li>
-    </ul>
+    <div class="caluculate">
+      <div class="wrapper">
+        <div id="number-text">0</div>
+      </div>
+      <div id="btns">
+        <div id="num-btns">
+          <button onclick="number(7)">7</button>
+          <button onclick="number(8)">8</button>
+          <button onclick="number(9)">9</button>
+          <button onclick="number(4)">4</button>
+          <button onclick="number(5)">5</button>
+          <button onclick="number(6)">6</button>
+          <button onclick="number(1)">1</button>
+          <button onclick="number(2)">2</button>
+          <button onclick="number(3)">3</button>
+          <button id="zero" onclick="zero(0)">0</button>
+          <button name="point" onclick="point('.')">.</button>
+          <button name="equal" onclick="calc('=')">=</button>
+        </div>
+        
+        <div id="symbol-btns">
+          <button name="symbol" onclick="calc('+')">+</button>
+          <button name="symbol" onclick="calc('-')">-</button>
+          <button name="symbol" onclick="calc('*')">*</button>
+          <button name="symbol" onclick="calc('/')">/</button>
+        </div>
+      </div>
+      <div class="other-btns">
+        <button id="clear-btn">AC</button>
+      </div>
+    </div>
 
     <script src="main.js"></script>
   </body>
